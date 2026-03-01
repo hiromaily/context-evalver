@@ -1,0 +1,10 @@
+[workspace]
+members = ["core"]
+resolver = "2"
+
+[profile.release]
+opt-level = "z"      # minimise binary size
+lto = true           # link-time optimisation for smaller, faster binary
+codegen-units = 1    # single codegen unit for maximum optimisation
+strip = "symbols"    # strip debug symbols from release binary
+panic = "abort"      # remove panic unwinding machinery

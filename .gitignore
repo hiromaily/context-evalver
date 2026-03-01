@@ -1,0 +1,15 @@
+# Rust
+core/target/
+
+# Node / Bun
+plugin/node_modules/
+plugin/dist/
+docs/node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+# macOS
+.DS_Store
+
+# Environment
+.env

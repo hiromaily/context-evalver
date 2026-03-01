@@ -1,0 +1,7 @@
+[build]
+# Ensure consistent target for all workspace members
+# No cross-compilation target set; native host target used by default.
+
+[alias]
+# Convenience: cargo t = cargo test for the whole workspace
+t = "test"

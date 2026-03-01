@@ -1,0 +1,5 @@
+{
+  "name": "context-optimizer",
+  "version": "0.1.0",
+  "description": "Observes session behavior and proposes evidence-based context improvements for CLAUDE.md, Skills, and slash commands"
+}

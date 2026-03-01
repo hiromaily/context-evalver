@@ -1,0 +1,24 @@
+{
+  "name": "context-optimizer",
+  "version": "0.1.0",
+  "description": "Claude Code plugin: observes session behavior and proposes evidence-based context improvements",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --out-dir dist",
+    "check": "biome check src/ tests/",
+    "lint": "biome lint --write src/ tests/",
+    "format": "biome format --write src/ tests/",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.4",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0",
+    "vitest": "^4.0.18"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}
