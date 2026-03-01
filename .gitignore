@@ -8,6 +8,10 @@ docs/node_modules/
 docs/.vitepress/dist/
 docs/.vitepress/cache/
 
+# Claude Code local settings (personal)
+.claude/settings.json
+.claude/settings.local.json
+
 # macOS
 .DS_Store
 
