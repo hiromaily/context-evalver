@@ -1,5 +1,7 @@
 # context-optimizer
 
+**[Documentation](https://hiromaily.github.io/context-evalver/)** · [Architecture](./ARCHITECTURE.md)
+
 A Claude Code plugin that silently observes your development sessions, identifies recurring behavioral patterns, and proposes concrete improvements to your `CLAUDE.md`, skills, and slash commands — backed by statistical evidence rather than guesswork.
 
 ## What It Does
