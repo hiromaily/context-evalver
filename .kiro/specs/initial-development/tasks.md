@@ -9,7 +9,7 @@
 
 - [ ] 1. Set up project scaffolding and build infrastructure
 - [x] 1.1 Initialize the Rust workspace with a binary crate for the core daemon
-  - Create a Cargo workspace with a single binary crate (`context-optimizer-core`) configured for Edition 2024
+  - Create a Cargo workspace with a single binary crate (`context-evalver-core`) configured for Edition 2024
   - Add dependencies: `rusqlite` (bundled feature), `serde` with derive, `serde_json`, `xxhash-rust` (xxh3 feature), `anyhow`
   - Configure release profile for minimal binary size and fast startup
   - Verify the empty binary compiles and exits cleanly
@@ -23,7 +23,7 @@
   - _Requirements: 12.1, 14.2_
 
 - [x] 1.3 Create the Claude Code plugin directory structure and manifest
-  - Create `.claude-plugin/plugin.json` with plugin name `context-optimizer`, version, and description
+  - Create `.claude-plugin/plugin.json` with plugin name `context-evalver`, version, and description
   - Create `hooks/hooks.json` placeholder registering `SessionStart`, `SessionEnd`, `PreToolUse`, `PostToolUse`, and `UserPromptSubmit` hooks pointing to compiled scripts in `dist/`
   - Create stub `skills/` directories for `context-audit`, `context-draft`, `context-apply`, `context-status`, `context-reset`, and `context-config`
   - Verify the plugin directory is recognized by Claude Code with `--plugin-dir`
@@ -36,7 +36,7 @@
   - On first open, set `journal_mode=WAL`, `synchronous=NORMAL`, `foreign_keys=ON`, and `busy_timeout=5000` pragmas
   - Create the `sessions`, `events`, `file_access`, `errors`, and `throttle_records` tables using `CREATE TABLE IF NOT EXISTS`
   - Create all required indexes: `(repo_root, ts)` on events, `(repo_root, path)` on file\_access, `(repo_root, message)` on errors, `repo_root` on sessions
-  - Place the database file at `~/.local/share/context-optimizer/db/{16-char repo hash}.db`
+  - Place the database file at `~/.local/share/context-evalver/db/{16-char repo hash}.db`
   - _Requirements: 3.1, 3.2, 3.3_
 
 - [x] 2.2 Implement typed write operations using prepared statements
@@ -132,7 +132,7 @@
 
 - [ ] 6. Build the Rust IPC server
 - [x] 6.1 Implement the Unix domain socket listener and JSONL message loop
-  - Bind a Unix socket at `~/.local/share/context-optimizer/{session_id}.sock` on startup
+  - Bind a Unix socket at `~/.local/share/context-evalver/{session_id}.sock` on startup
   - Accept connections sequentially; for each connection, read newline-delimited JSON until EOF
   - Dispatch `event` messages to the event ingestor's buffer; dispatch `query_signals` to signal extraction and confidence scoring; handle `flush` and `shutdown` control messages
   - Write JSONL responses (`signal_summary`, `ack`, `error`) back on the same connection
@@ -151,14 +151,14 @@
 - [ ] 7. (P) Build the TypeScript plugin foundation
   - These tasks operate on a separate codebase boundary (TypeScript vs Rust) and can run in parallel with tasks 2–6
 - [x] 7.1 (P) Implement the configuration loader
-  - Read `.context-optimizer.json` from the repository root; merge with hardcoded defaults for any missing or invalid field
+  - Read `.context-evalver.json` from the repository root; merge with hardcoded defaults for any missing or invalid field
   - Support all six config fields: `analysis_window_days`, `min_sessions`, `min_repeat_threshold`, `min_confidence_score`, `exclude_paths`, `auto_pr`
   - Log a warning to stderr for each invalid field value; never throw or crash
   - Return a fully populated config object even when the file is absent
   - _Requirements: 12.1, 12.2, 12.3, 12.4_
 
 - [x] 7.2 (P) Implement the IPC client for the Unix socket
-  - Derive the socket path deterministically as `~/.local/share/context-optimizer/{session_id}.sock`
+  - Derive the socket path deterministically as `~/.local/share/context-evalver/{session_id}.sock`
   - Implement fire-and-forget event send: open connection, write JSONL line, close — no await for acknowledgment
   - Implement request-response `query_signals` send: write JSONL line, read one response line, parse and return the `SignalSummaryMessage`
   - Implement `sendFlush` for the `SessionEnd` hook
@@ -179,7 +179,7 @@
 - [ ] 8. Build the hook dispatcher and session lifecycle management
 - [x] 8.1 Implement the session start hook script
   - Read hook input from stdin; parse `session_id`, `cwd`, and `hook_event_name`
-  - Check for `.context-optimizer-ignore` in `cwd`; if found, exit 0 immediately with no further action
+  - Check for `.context-evalver-ignore` in `cwd`; if found, exit 0 immediately with no further action
   - Spawn the Rust daemon binary as a background process with `--session-id`; do not wait for it
   - Insert a session record (id, repo\_root, branch, started\_at) into the DB by sending an event message to the daemon after a brief startup wait
   - Exit 0 promptly so Claude Code is not blocked
@@ -228,7 +228,7 @@
   - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
 
 - [x] 10.2 Implement draft staging file persistence
-  - After successful diff generation, serialize all `DraftPatch` objects into a `DraftStagingFile` JSON and write it to `~/.local/share/context-optimizer/drafts/{session_id}.json`
+  - After successful diff generation, serialize all `DraftPatch` objects into a `DraftStagingFile` JSON and write it to `~/.local/share/context-evalver/drafts/{session_id}.json`
   - If the LLM call fails, do not write the staging file; surface the error as a Markdown message with a retry suggestion
   - Implement `loadDraft` to read and parse the staging file; return `null` if the file is absent
   - Implement `clearDraft` to delete the staging file
@@ -360,12 +360,12 @@
 
 - [x] 15.4* (optional) Integration test: /context-audit end-to-end output
   - Load the plugin in Claude Code via `--plugin-dir`; run 3 synthetic sessions by replaying pre-recorded hook payloads
-  - Invoke `/context-optimizer:context-audit` and capture stdout
+  - Invoke `/context-evalver:context-audit` and capture stdout
   - Assert the output contains the "Observed Signals" and "Recommendation Candidates" sections with non-zero entries
   - _Requirements: 8.1, 8.2, 8.3_
 
 - [x] 15.5* (optional) Integration test: /context-draft staging file lifecycle
-  - Invoke `/context-optimizer:context-draft` with a mocked LLM response returning a known unified diff
+  - Invoke `/context-evalver:context-draft` with a mocked LLM response returning a known unified diff
   - Assert the staging file is written with the expected patches
-  - Invoke `/context-optimizer:context-apply` with auto-confirm; assert the target file is created and the staging file is removed
+  - Invoke `/context-evalver:context-apply` with auto-confirm; assert the target file is created and the staging file is removed
   - _Requirements: 9.4, 10.1, 10.2_

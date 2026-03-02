@@ -1,8 +1,8 @@
-# context-optimizer (plugin)
+# context-evalver (plugin)
 
 TypeScript Claude Code plugin that observes developer session behavior and proposes evidence-based context improvements for `CLAUDE.md`, skills, and slash commands.
 
-This plugin is the TypeScript layer of the context-optimizer system. It integrates with Claude Code via hooks and user-invocable skills, delegates signal analysis to the [Rust core daemon](../core/README.md), and presents actionable patch proposals.
+This plugin is the TypeScript layer of the context-evalver system. It integrates with Claude Code via hooks and user-invocable skills, delegates signal analysis to the [Rust core daemon](../core/README.md), and presents actionable patch proposals.
 
 ## How It Works
 
@@ -42,7 +42,7 @@ On **SessionStart**, the plugin spawns the Rust daemon as a detached background 
 | `hook-dispatcher.ts` | Session lifecycle hooks: spawn daemon on start, capture events per tool use, flush + shutdown on end |
 | `event-capture.ts` | Derive sanitized `CapturedEvent` objects from raw hook payloads; redact secrets; normalize error messages |
 | `ipc-client.ts` | Unix socket JSONL client — `sendEvent`, `sendFlush`, `sendShutdown`, `querySignals` |
-| `config-loader.ts` | Load and validate `.context-optimizer.json`; merge with defaults |
+| `config-loader.ts` | Load and validate `.context-evalver.json`; merge with defaults |
 | `patch-generator.ts` | Build LLM prompts, parse `<!-- PATCH -->` blocks into unified diffs, generate audit/draft reports, persist staging files |
 | `context-audit.ts` | `/context-audit` skill entry point |
 | `context-draft.ts` | `/context-draft` skill entry point |
@@ -53,7 +53,7 @@ On **SessionStart**, the plugin spawns the Rust daemon as a detached background 
 
 ## Configuration
 
-Place `.context-optimizer.json` in your repository root. All fields are optional — missing or invalid values fall back to defaults.
+Place `.context-evalver.json` in your repository root. All fields are optional — missing or invalid values fall back to defaults.
 
 ```json
 {
@@ -75,7 +75,7 @@ Place `.context-optimizer.json` in your repository root. All fields are optional
 | `exclude_paths` | string[] | `["node_modules", ".git"]` | Path segments to exclude from file-access capture |
 | `auto_pr` | boolean | `false` | Auto-create a git commit after `/context-apply` |
 
-To opt a repository out of all monitoring entirely, create `.context-optimizer-ignore` in its root.
+To opt a repository out of all monitoring entirely, create `.context-evalver-ignore` in its root.
 
 ## Event Capture
 

@@ -213,7 +213,7 @@ export async function runApply(
       .map(f => patches.find(p => p.target_file === f)?.recommendation_kind ?? 'update')
       .filter((v, i, a) => a.indexOf(v) === i)
       .join(', ');
-    const commitMessage = `chore: apply context-optimizer recommendations (${kinds})\n\nApplied files:\n${applied.map(f => `- ${f}`).join('\n')}`;
+    const commitMessage = `chore: apply context-evalver recommendations (${kinds})\n\nApplied files:\n${applied.map(f => `- ${f}`).join('\n')}`;
     commitResult = await gitCommitFn(cwd, commitMessage);
   }
 
@@ -263,7 +263,7 @@ export async function runApply(
       'Patches applied. You can commit manually with:',
       '',
       '```sh',
-      'git add -A && git commit -m "chore: apply context-optimizer recommendations"',
+      'git add -A && git commit -m "chore: apply context-evalver recommendations"',
       '```',
       '',
     );

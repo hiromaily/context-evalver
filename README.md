@@ -1,4 +1,4 @@
-# context-optimizer
+# context-evalver
 
 **[Documentation](https://hiromaily.github.io/context-evalver/)** · [Architecture](./ARCHITECTURE.md)
 
@@ -52,7 +52,7 @@ Recommendations require a minimum confidence score (default 0.70) and pass throu
 
 ## Configuration
 
-Place `.context-optimizer.json` in your repository root:
+Place `.context-evalver.json` in your repository root:
 
 ```json
 {
@@ -65,12 +65,12 @@ Place `.context-optimizer.json` in your repository root:
 }
 ```
 
-All fields are optional — missing or invalid values fall back to defaults. To disable monitoring for a specific repository, create a `.context-optimizer-ignore` file in its root.
+All fields are optional — missing or invalid values fall back to defaults. To disable monitoring for a specific repository, create a `.context-evalver-ignore` file in its root.
 
 ## Project Structure
 
 ```
-context-optimizer/
+context-evalver/
 ├── core/       Rust daemon — SQLite persistence, signal extraction, confidence scoring
 ├── plugin/     TypeScript plugin — Claude Code hooks, IPC client, skills, patch generation
 ├── docs/       Design documents and specifications
@@ -88,7 +88,7 @@ context-optimizer/
 ```bash
 cd core
 cargo build --release
-# binary: core/target/release/context-optimizer-core
+# binary: core/target/release/context-evalver-core
 ```
 
 ### TypeScript plugin
@@ -115,5 +115,5 @@ cd plugin && bun run test
 - **No file contents are logged** — only file paths and tool names
 - **Secrets are redacted** from commands before storage (AWS keys, GitHub tokens, `KEY=value` assignments)
 - **Error messages are normalized** — file paths and line numbers stripped before storage
-- **Opt-out per repository** — create `.context-optimizer-ignore` to disable all capture
+- **Opt-out per repository** — create `.context-evalver-ignore` to disable all capture
 - **Exclude paths** — configure `exclude_paths` to skip specific directories

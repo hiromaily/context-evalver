@@ -1,6 +1,6 @@
 # Daily Workflow
 
-context-optimizer is designed to fit naturally into your development routine. Most of the time, nothing special is needed — data collection is fully automatic.
+context-evalver is designed to fit naturally into your development routine. Most of the time, nothing special is needed — data collection is fully automatic.
 
 ## Phase 1: Passive Observation (Automatic)
 

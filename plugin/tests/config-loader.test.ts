@@ -63,7 +63,7 @@ describe('loadConfig', () => {
 
   it('overrides analysis_window_days with valid value', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ analysis_window_days: 60 }),
     );
     const config = loadConfig(tmpDir);
@@ -71,14 +71,14 @@ describe('loadConfig', () => {
   });
 
   it('overrides min_sessions with valid value', async () => {
-    await writeFile(join(tmpDir, '.context-optimizer.json'), JSON.stringify({ min_sessions: 5 }));
+    await writeFile(join(tmpDir, '.context-evalver.json'), JSON.stringify({ min_sessions: 5 }));
     const config = loadConfig(tmpDir);
     expect(config.min_sessions).toBe(5);
   });
 
   it('overrides min_repeat_threshold with valid value', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ min_repeat_threshold: 7 }),
     );
     const config = loadConfig(tmpDir);
@@ -87,7 +87,7 @@ describe('loadConfig', () => {
 
   it('overrides min_confidence_score with valid value', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ min_confidence_score: 0.9 }),
     );
     const config = loadConfig(tmpDir);
@@ -96,7 +96,7 @@ describe('loadConfig', () => {
 
   it('overrides exclude_paths with valid array', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ exclude_paths: ['vendor', 'dist'] }),
     );
     const config = loadConfig(tmpDir);
@@ -104,14 +104,14 @@ describe('loadConfig', () => {
   });
 
   it('overrides auto_pr with true', async () => {
-    await writeFile(join(tmpDir, '.context-optimizer.json'), JSON.stringify({ auto_pr: true }));
+    await writeFile(join(tmpDir, '.context-evalver.json'), JSON.stringify({ auto_pr: true }));
     const config = loadConfig(tmpDir);
     expect(config.auto_pr).toBe(true);
   });
 
   it('overrides only specified fields, keeps others as defaults', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ analysis_window_days: 14, auto_pr: true }),
     );
     const config = loadConfig(tmpDir);
@@ -129,7 +129,7 @@ describe('loadConfig', () => {
 
   it('falls back to default for negative analysis_window_days and logs warning', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ analysis_window_days: -5 }),
     );
     const config = loadConfig(tmpDir);
@@ -139,7 +139,7 @@ describe('loadConfig', () => {
 
   it('falls back to default for zero analysis_window_days', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ analysis_window_days: 0 }),
     );
     const config = loadConfig(tmpDir);
@@ -148,7 +148,7 @@ describe('loadConfig', () => {
 
   it('falls back to default for non-integer min_sessions and logs warning', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ min_sessions: 'bad' }),
     );
     const config = loadConfig(tmpDir);
@@ -158,7 +158,7 @@ describe('loadConfig', () => {
 
   it('falls back to default for negative min_repeat_threshold', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ min_repeat_threshold: -1 }),
     );
     const config = loadConfig(tmpDir);
@@ -167,7 +167,7 @@ describe('loadConfig', () => {
 
   it('falls back to default for out-of-range min_confidence_score (> 1)', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ min_confidence_score: 1.5 }),
     );
     const config = loadConfig(tmpDir);
@@ -176,7 +176,7 @@ describe('loadConfig', () => {
 
   it('falls back to default for out-of-range min_confidence_score (< 0)', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ min_confidence_score: -0.1 }),
     );
     const config = loadConfig(tmpDir);
@@ -185,7 +185,7 @@ describe('loadConfig', () => {
 
   it('falls back to default for non-array exclude_paths', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ exclude_paths: 'node_modules' }),
     );
     const config = loadConfig(tmpDir);
@@ -194,7 +194,7 @@ describe('loadConfig', () => {
   });
 
   it('falls back to default for non-boolean auto_pr', async () => {
-    await writeFile(join(tmpDir, '.context-optimizer.json'), JSON.stringify({ auto_pr: 1 }));
+    await writeFile(join(tmpDir, '.context-evalver.json'), JSON.stringify({ auto_pr: 1 }));
     const config = loadConfig(tmpDir);
     expect(config.auto_pr).toBe(false);
   });
@@ -204,7 +204,7 @@ describe('loadConfig', () => {
   // --------------------------------------------------------------------------
 
   it('returns defaults when config file contains invalid JSON', async () => {
-    await writeFile(join(tmpDir, '.context-optimizer.json'), 'not valid json {{{');
+    await writeFile(join(tmpDir, '.context-evalver.json'), 'not valid json {{{');
     const config = loadConfig(tmpDir);
     expect(config).toEqual(DEFAULT_CONFIG);
   });
@@ -215,7 +215,7 @@ describe('loadConfig', () => {
 
   it('ignores unknown fields in config file', async () => {
     await writeFile(
-      join(tmpDir, '.context-optimizer.json'),
+      join(tmpDir, '.context-evalver.json'),
       JSON.stringify({ unknown_field: 'value', analysis_window_days: 7 }),
     );
     const config = loadConfig(tmpDir);

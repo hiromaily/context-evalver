@@ -1,11 +1,11 @@
 [package]
-name = "context-optimizer-core"
+name = "context-evalver-core"
 version = "0.1.0"
 edition = "2024"
-description = "Rust core daemon for context-optimizer: SQLite persistence, signal extraction, confidence scoring"
+description = "Rust core daemon for context-evalver: SQLite persistence, signal extraction, confidence scoring"
 
 [[bin]]
-name = "context-optimizer-core"
+name = "context-evalver-core"
 path = "src/main.rs"
 
 [dependencies]

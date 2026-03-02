@@ -1,6 +1,6 @@
 # Concepts
 
-Understanding the key concepts helps you interpret audit reports and make the most of context-optimizer.
+Understanding the key concepts helps you interpret audit reports and make the most of context-evalver.
 
 ## Signal Kinds
 
@@ -89,7 +89,7 @@ Severity is displayed in `/context-audit` output to help you prioritize which im
 
 ## Data Storage
 
-All data is stored locally under `~/.local/share/context-optimizer/` (or `$XDG_DATA_HOME/context-optimizer/`). No data leaves your machine.
+All data is stored locally under `~/.local/share/context-evalver/` (or `$XDG_DATA_HOME/context-evalver/`). No data leaves your machine.
 
 | Path | Contents |
 |------|----------|

@@ -33,8 +33,8 @@ fn xxhash_produces_stable_digest() {
     // Verifies xxhash-rust (xxh3 feature) is available and produces deterministic output.
     use xxhash_rust::xxh3::xxh3_64;
 
-    let hash_a = xxh3_64(b"context-optimizer");
-    let hash_b = xxh3_64(b"context-optimizer");
+    let hash_a = xxh3_64(b"context-evalver");
+    let hash_b = xxh3_64(b"context-evalver");
     assert_eq!(hash_a, hash_b, "identical input must produce identical hash");
 
     let hash_other = xxh3_64(b"different-input");

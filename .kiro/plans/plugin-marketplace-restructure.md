@@ -1,9 +1,10 @@
 # Plan: Restructure for Claude Code Plugin Marketplace
 
-**Goal**: Make `context-optimizer` installable via:
-```
-/plugin marketplace add hiromaily/context-optimizer
-/plugin install context-optimizer
+**Goal**: Make `context-evalver` installable via:
+
+```text
+/plugin marketplace add hiromaily/context-evalver
+/plugin install context-evalver
 ```
 
 ---
@@ -24,14 +25,14 @@
 | Hook entry points | Not built separately | `dist/hooks/*.js` per event |
 | Built artifacts | Not committed | `dist/` must be available post-install |
 | Rust daemon install | Manual `cargo build` | `postinstall` script or pre-built binary |
-| GitHub repo name | `context-evalver` | `context-optimizer` |
+| GitHub repo name | `context-evalver` | No rename needed |
 
 ---
 
 ## Target Repository Structure
 
-```
-context-optimizer/                  ← GitHub repo root
+```text
+context-evalver/                    ← GitHub repo root
 ├── .claude-plugin/
 │   └── plugin.json                 ← plugin manifest
 ├── hooks/
@@ -75,16 +76,7 @@ context-optimizer/                  ← GitHub repo root
 
 ## Implementation Steps
 
-### Step 1 — Rename GitHub Repository
-
-Rename `hiromaily/context-evalver` → `hiromaily/context-optimizer` on GitHub
-(Settings → Repository name)
-
-This is a manual step. GitHub automatically redirects old URLs.
-
----
-
-### Step 2 — Restructure TypeScript Source
+### Step 1 — Restructure TypeScript Source
 
 Move files from `plugin/` to the repo root:
 
@@ -130,9 +122,9 @@ Two options (choose one):
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 
-const binaryPath = 'core/target/release/context-optimizer-core';
+const binaryPath = 'core/target/release/context-evalver-core';
 if (!existsSync(binaryPath)) {
-  console.log('[context-optimizer] Building Rust daemon...');
+  console.log('[context-evalver] Building Rust daemon...');
   execSync('cargo build --release', { cwd: 'core', stdio: 'inherit' });
 }
 ```
@@ -204,13 +196,13 @@ For a plugin (not a library), committing `dist/` is acceptable and what `claude-
 
 ```json
 {
-  "name": "context-optimizer",
+  "name": "context-evalver",
   "version": "0.1.0",
   "description": "Observes session behavior and proposes evidence-based context improvements for CLAUDE.md, skills, and slash commands",
   "author": {
     "name": "hiromaily"
   },
-  "repository": "https://github.com/hiromaily/context-optimizer",
+  "repository": "https://github.com/hiromaily/context-evalver",
   "license": "MIT",
   "keywords": ["context", "claude-md", "hooks", "signals", "optimization"]
 }
@@ -245,12 +237,12 @@ Before publishing to GitHub, test the plugin locally:
 ```bash
 # Simulate what the marketplace installer does
 cd /tmp
-git clone https://github.com/hiromaily/context-optimizer
-cd context-optimizer
+git clone https://github.com/hiromaily/context-evalver
+cd context-evalver
 bun install   # triggers postinstall → build + daemon install
 ```
 
 Then in Claude Code:
 ```
-/plugin install /tmp/context-optimizer
+/plugin install /tmp/context-evalver
 ```

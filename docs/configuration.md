@@ -1,12 +1,12 @@
 # Configuration
 
-context-optimizer reads `.context-optimizer.json` from the repository root. All fields are optional — any missing or invalid field falls back to its default value. The config file is never required; the plugin operates with full defaults when it is absent.
+context-evalver reads `.context-evalver.json` from the repository root. All fields are optional — any missing or invalid field falls back to its default value. The config file is never required; the plugin operates with full defaults when it is absent.
 
 ## Config File Location
 
 ```
 your-project/
-└── .context-optimizer.json   ← place here
+└── .context-evalver.json   ← place here
 ```
 
 ## Full Field Reference

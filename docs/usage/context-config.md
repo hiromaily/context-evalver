@@ -1,19 +1,19 @@
 # /context-config
 
-Reads and displays the `.context-optimizer.json` configuration for the current repository as a Markdown table.
+Reads and displays the `.context-evalver.json` configuration for the current repository as a Markdown table.
 
 ## When to Use
 
 - After installation, to verify that the plugin is working and the config is loaded correctly
-- After editing `.context-optimizer.json`, to confirm the new values are active
+- After editing `.context-evalver.json`, to confirm the new values are active
 - To quickly check the current settings without opening the config file
 
 ## Example Output
 
-With a local `.context-optimizer.json`:
+With a local `.context-evalver.json`:
 
 ```markdown
-## context-optimizer Configuration
+## context-evalver Configuration
 
 | Field | Value |
 |-------|-------|
@@ -28,7 +28,7 @@ With a local `.context-optimizer.json`:
 With no config file (all defaults):
 
 ```markdown
-## context-optimizer Configuration (defaults)
+## context-evalver Configuration (defaults)
 
 | Field | Value |
 |-------|-------|
@@ -42,6 +42,6 @@ With no config file (all defaults):
 
 ## Next Steps
 
-- To change settings, create or edit `.context-optimizer.json` in your repository root
+- To change settings, create or edit `.context-evalver.json` in your repository root
 - See [Configuration](/configuration) for the full field reference
 - Run `/context-status` to check current signal state with the active configuration

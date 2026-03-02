@@ -33,7 +33,7 @@ export const DEFAULT_CONFIG: Config = {
 
 function warn(field: string, value: unknown, reason: string): void {
   process.stderr.write(
-    `[context-optimizer] config warning: ${field}=${JSON.stringify(value)} — ${reason}; using default\n`,
+    `[context-evalver] config warning: ${field}=${JSON.stringify(value)} — ${reason}; using default\n`,
   );
 }
 
@@ -74,12 +74,12 @@ function validBoolean(field: string, raw: unknown, def: boolean): boolean {
 // ---------------------------------------------------------------------------
 
 /**
- * Reads `.context-optimizer.json` from `repo_root`, merges with defaults for
+ * Reads `.context-evalver.json` from `repo_root`, merges with defaults for
  * any missing or invalid field, and returns a fully populated Config object.
  * Never throws — on any error the full defaults are returned.
  */
 export function loadConfig(repo_root: string): Config {
-  const configPath = join(repo_root, '.context-optimizer.json');
+  const configPath = join(repo_root, '.context-evalver.json');
   let raw: Record<string, unknown> = {};
 
   try {

@@ -86,12 +86,12 @@ interface FlushMessage {
 
 /**
  * Derives the Unix socket path for a given session_id.
- * Path: `~/.local/share/context-optimizer/{session_id}.sock`
+ * Path: `~/.local/share/context-evalver/{session_id}.sock`
  */
 export function socketPathForSession(session_id: string): string {
   // Mirror the Rust daemon's socket_path_for_session logic.
   const xdgDataHome = process.env.XDG_DATA_HOME ?? join(homedir(), '.local', 'share');
-  return join(xdgDataHome, 'context-optimizer', `${session_id}.sock`);
+  return join(xdgDataHome, 'context-evalver', `${session_id}.sock`);
 }
 
 // ---------------------------------------------------------------------------
@@ -112,7 +112,7 @@ const ERROR_SUMMARY: SignalSummaryMessage = {
 // ---------------------------------------------------------------------------
 
 /**
- * Thin client for the context-optimizer Rust daemon Unix socket.
+ * Thin client for the context-evalver Rust daemon Unix socket.
  *
  * - `sendEvent` is fire-and-forget (no await for acknowledgment).
  * - `querySignals` is request-response: writes one JSONL line, reads one back.
@@ -132,7 +132,7 @@ export class IpcClient {
 
     const socket = createConnection(this.sockPath);
     socket.on('error', err => {
-      process.stderr.write(`[context-optimizer] sendEvent failed: ${err.message}\n`);
+      process.stderr.write(`[context-evalver] sendEvent failed: ${err.message}\n`);
     });
     socket.on('connect', () => {
       socket.write(line, () => socket.destroy());
@@ -160,7 +160,7 @@ export class IpcClient {
       const socket = createConnection(this.sockPath);
 
       socket.on('error', err => {
-        process.stderr.write(`[context-optimizer] querySignals failed: ${err.message}\n`);
+        process.stderr.write(`[context-evalver] querySignals failed: ${err.message}\n`);
         resolve(ERROR_SUMMARY);
       });
 
@@ -177,7 +177,7 @@ export class IpcClient {
             try {
               resolve(JSON.parse(rawLine) as SignalSummaryMessage);
             } catch {
-              process.stderr.write('[context-optimizer] querySignals: malformed response\n');
+              process.stderr.write('[context-evalver] querySignals: malformed response\n');
               resolve(ERROR_SUMMARY);
             }
           }
@@ -198,7 +198,7 @@ export class IpcClient {
       const socket = createConnection(this.sockPath);
 
       socket.on('error', err => {
-        process.stderr.write(`[context-optimizer] sendFlush failed: ${err.message}\n`);
+        process.stderr.write(`[context-evalver] sendFlush failed: ${err.message}\n`);
         resolve();
       });
 
@@ -230,7 +230,7 @@ export class IpcClient {
       const socket = createConnection(this.sockPath);
 
       socket.on('error', err => {
-        process.stderr.write(`[context-optimizer] sendShutdown failed: ${err.message}\n`);
+        process.stderr.write(`[context-evalver] sendShutdown failed: ${err.message}\n`);
         resolve();
       });
 

@@ -1,4 +1,4 @@
-/// Integration tests for the context-optimizer-core daemon.
+/// Integration tests for the context-evalver-core daemon.
 ///
 /// test_integration_full_session_event_capture_and_signal_emergence (15.1):
 ///   Pre-populates the DB with rich historical data (10 sessions, 2 000 events
@@ -24,14 +24,14 @@ use xxhash_rust::xxh3::xxh3_64;
 
 fn daemon_socket_path(session_id: &str) -> PathBuf {
     let base = dirs_next::data_local_dir().unwrap_or_else(|| PathBuf::from("/tmp"));
-    base.join("context-optimizer").join(format!("{session_id}.sock"))
+    base.join("context-evalver").join(format!("{session_id}.sock"))
 }
 
 fn daemon_db_path(repo_root: &str) -> PathBuf {
     let hash = xxh3_64(repo_root.as_bytes());
     let hex = format!("{:016x}", hash);
     let base = dirs_next::data_local_dir().unwrap_or_else(|| PathBuf::from("/tmp"));
-    base.join("context-optimizer")
+    base.join("context-evalver")
         .join("db")
         .join(format!("{hex}.db"))
 }
@@ -213,7 +213,7 @@ fn test_integration_full_session_event_capture_and_signal_emergence() {
     // -----------------------------------------------------------------------
     // 3. Start the daemon subprocess
     // -----------------------------------------------------------------------
-    let binary = env!("CARGO_BIN_EXE_context-optimizer-core");
+    let binary = env!("CARGO_BIN_EXE_context-evalver-core");
 
     let mut child = std::process::Command::new(binary)
         .args(["--session-id", &session_id, "--repo-root", &repo_root])
@@ -487,7 +487,7 @@ fn test_integration_throttle_suppression_and_reappearance() {
     // -----------------------------------------------------------------------
     // 3. Start the daemon subprocess
     // -----------------------------------------------------------------------
-    let binary = env!("CARGO_BIN_EXE_context-optimizer-core");
+    let binary = env!("CARGO_BIN_EXE_context-evalver-core");
 
     let mut child = std::process::Command::new(binary)
         .args(["--session-id", &session_id, "--repo-root", &repo_root])

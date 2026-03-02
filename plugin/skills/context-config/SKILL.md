@@ -4,7 +4,7 @@ description: Display the current plugin configuration as a Markdown table, showi
 
 # context-config
 
-Reads and displays the `.context-optimizer.json` configuration file for the current repository (or global defaults if no local config is present).
+Reads and displays the `.context-evalver.json` configuration file for the current repository (or global defaults if no local config is present).
 
 ## Configuration fields
 
@@ -25,10 +25,10 @@ node dist/context-config.js
 
 This skill delegates to the compiled `dist/context-config.js` Node.js script, which:
 1. Reads `cwd` from the invocation context
-2. Loads `.context-optimizer.json` from the repository root (falls back to defaults if absent)
+2. Loads `.context-evalver.json` from the repository root (falls back to defaults if absent)
 3. Renders all six fields as a compact Markdown table to stdout
 
 ## Next steps
 
-- To override settings, create or edit `.context-optimizer.json` in your repository root
+- To override settings, create or edit `.context-evalver.json` in your repository root
 - Run `/context-status` to check current signal state with the active configuration

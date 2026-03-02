@@ -1,5 +1,5 @@
 {
-  "name": "context-optimizer",
+  "name": "context-evalver",
   "version": "0.1.0",
   "description": "Claude Code plugin: observes session behavior and proposes evidence-based context improvements",
   "type": "module",

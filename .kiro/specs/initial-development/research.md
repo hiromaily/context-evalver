@@ -98,7 +98,7 @@
   1. Per-event Rust spawn — rejected (too slow)
   2. TCP loopback — rejected (higher overhead than Unix socket)
   3. Named pipe — considered; Unix socket preferred for ergonomics
-- **Selected Approach**: `SessionStart` hook starts the Rust binary as a background process. Socket path is `~/.local/share/context-optimizer/{session_id}.sock`. Path is written to `CLAUDE_ENV_FILE` so all subsequent hooks inherit it as `CONTEXT_OPTIMIZER_SOCKET`.
+- **Selected Approach**: `SessionStart` hook starts the Rust binary as a background process. Socket path is `~/.local/share/context-evalver/{session_id}.sock`. Path is written to `CLAUDE_ENV_FILE` so all subsequent hooks inherit it as `CONTEXT_OPTIMIZER_SOCKET`.
 - **Rationale**: Unix socket connection is <0.1ms; fire-and-forget write is <1ms total. Stays well within 5ms budget.
 - **Trade-offs**: Daemon must be managed (start/stop/crash recovery). `SessionEnd` hook sends `{"type": "flush"}` and `{"type": "shutdown"}` messages.
 - **Follow-up**: Implement daemon health check in hook scripts; if socket not found, log warning and skip event.
@@ -128,7 +128,7 @@
 ## Risks & Mitigations
 
 - **Daemon crash recovery**: If the Rust daemon crashes mid-session, events are lost. Mitigation: hook scripts check socket availability; log warning on failure; optional auto-restart via `SessionStart`-registered launchd/systemd watch.
-- **SQLite contention**: WAL mode allows one writer. If two sessions write to the same DB file simultaneously, the second waits on `busy_timeout`. Mitigation: per-session WAL DB in `~/.local/share/context-optimizer/db/{repo_hash}.db` with 5s busy timeout.
+- **SQLite contention**: WAL mode allows one writer. If two sessions write to the same DB file simultaneously, the second waits on `busy_timeout`. Mitigation: per-session WAL DB in `~/.local/share/context-evalver/db/{repo_hash}.db` with 5s busy timeout.
 - **Secret leakage**: Hook event payloads may contain env var values or command arguments with tokens. Mitigation: TypeScript sanitizer runs before IPC send; regex-based `[REDACTED]` replacement.
 - **Biome false positives in generated code**: Mitigation: add `dist/` to `.biomeignore`.
 

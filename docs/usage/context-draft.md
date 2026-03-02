@@ -52,7 +52,7 @@ Review each diff carefully. You are not committed to applying all patches.
 After generating patches, `/context-draft` saves the staging file to:
 
 ```
-~/.local/share/context-optimizer/drafts/{session_id}.json
+~/.local/share/context-evalver/drafts/{session_id}.json
 ```
 
 This file is read by `/context-apply`. It is automatically deleted after a successful apply.

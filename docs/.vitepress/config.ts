@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'context-optimizer',
+  title: 'context-evalver',
   description: 'Observes session behavior and proposes evidence-based context improvements for CLAUDE.md, Skills, and slash commands',
   base: '/context-evalver/',
 

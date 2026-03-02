@@ -182,7 +182,7 @@ describe('runApply — auto_pr = true', () => {
         auto_pr: true,
         gitCommitFn: makeGitCommit({
           success: true,
-          output: '[main abc1234] Apply context-optimizer recommendations',
+          output: '[main abc1234] Apply context-evalver recommendations',
         }),
       },
     );

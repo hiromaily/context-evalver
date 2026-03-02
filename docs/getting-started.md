@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Before installing context-optimizer, ensure you have:
+Before installing context-evalver, ensure you have:
 
 - **Rust toolchain** — [rustup.rs](https://rustup.rs) (edition 2024, stable)
 - **Bun** — [bun.sh](https://bun.sh) v1.0 or later
@@ -17,11 +17,11 @@ cd core
 cargo build --release
 ```
 
-The compiled binary is at `core/target/release/context-optimizer-core`. Copy or symlink it to a location on your `$PATH`:
+The compiled binary is at `core/target/release/context-evalver-core`. Copy or symlink it to a location on your `$PATH`:
 
 ```bash
 # Example — adjust path to match your preference
-cp core/target/release/context-optimizer-core ~/.local/bin/context-optimizer-core
+cp core/target/release/context-evalver-core ~/.local/bin/context-evalver-core
 ```
 
 ## 2. Build the Plugin
@@ -117,7 +117,7 @@ This displays the active configuration table. If the command is recognized and r
 
 ## 5. Optional: Create a Config File
 
-To customize behavior, create `.context-optimizer.json` in your repository root:
+To customize behavior, create `.context-evalver.json` in your repository root:
 
 ```json
 {
@@ -137,7 +137,7 @@ All fields are optional — omitted fields use their defaults. See [Configuratio
 To disable monitoring for a specific repository, create an empty file at the repository root:
 
 ```bash
-touch .context-optimizer-ignore
+touch .context-evalver-ignore
 ```
 
 The plugin will not log any events for that repository.

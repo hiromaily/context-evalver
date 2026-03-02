@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "context-optimizer-docs",
+      "name": "context-evalver-docs",
       "devDependencies": {
         "vitepress": "^1.6.3",
       },

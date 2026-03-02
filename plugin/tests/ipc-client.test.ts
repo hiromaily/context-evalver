@@ -57,9 +57,9 @@ describe('socketPathForSession', () => {
     expect(p.endsWith('my-session.sock')).toBe(true);
   });
 
-  it('contains "context-optimizer" directory segment', () => {
+  it('contains "context-evalver" directory segment', () => {
     const p = socketPathForSession('sess-1');
-    expect(p).toContain('context-optimizer');
+    expect(p).toContain('context-evalver');
   });
 
   it('is deterministic for the same session_id', () => {

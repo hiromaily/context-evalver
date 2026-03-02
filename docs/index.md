@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: context-optimizer
+  name: context-evalver
   text: Evidence-based context improvements for Claude Code
   tagline: Passively observes your development sessions and proposes targeted improvements to CLAUDE.md, Skills, and slash commands — backed by real behavioral data.
   actions:

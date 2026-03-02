@@ -5,9 +5,9 @@ import { PLUGIN_NAME, PLUGIN_VERSION } from '../src/index.js';
 // These verify the entry point exports are present and well-formed,
 // and that strict TypeScript compilation produced a usable module.
 
-describe('context-optimizer plugin scaffold', () => {
+describe('context-evalver plugin scaffold', () => {
   it('exports the canonical plugin name', () => {
-    expect(PLUGIN_NAME).toBe('context-optimizer');
+    expect(PLUGIN_NAME).toBe('context-evalver');
   });
 
   it('exports a semver-formatted version string', () => {

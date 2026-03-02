@@ -1,4 +1,4 @@
-# context-optimizer-core
+# context-evalver-core
 
 Rust daemon that continuously monitors developer activity within a repository to identify recurring patterns and generate AI-powered contextual recommendations. Serves as the backend engine for the AI-DLC (AI Development Life Cycle) system.
 
@@ -32,7 +32,7 @@ Events → Ingestor Buffer → SQLite (5 tables) → Signal Extractors
 
 ## IPC Protocol
 
-**Transport**: Unix domain socket (`~/.local/share/context-optimizer/{SESSION_ID}.sock`)
+**Transport**: Unix domain socket (`~/.local/share/context-evalver/{SESSION_ID}.sock`)
 **Format**: JSONL (newline-delimited JSON) over `SOCK_STREAM`
 
 ### Inbound Messages
@@ -75,7 +75,7 @@ Supported `kind` values: `command`, `file_read`, `file_write`, `error`
 
 ## Data Model
 
-SQLite database at `~/.local/share/context-optimizer/db/{xxh3(repo_root)}.db`
+SQLite database at `~/.local/share/context-evalver/db/{xxh3(repo_root)}.db`
 
 | Table | Purpose |
 |-------|---------|
@@ -121,7 +121,7 @@ cd core
 cargo build --release
 
 # Run
-./target/release/context-optimizer-core --session-id <ID> --repo-root <PATH>
+./target/release/context-evalver-core --session-id <ID> --repo-root <PATH>
 ```
 
 The daemon creates its socket and database automatically on first run.

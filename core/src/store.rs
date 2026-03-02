@@ -74,7 +74,7 @@ pub struct SQLiteStore {
 
 impl SQLiteStore {
     /// Open (or create) the SQLite DB for the given repo_root.
-    /// DB path: ~/.local/share/context-optimizer/db/{16-char xxh3 hash}.db
+    /// DB path: ~/.local/share/context-evalver/db/{16-char xxh3 hash}.db
     pub fn open(repo_root: &str) -> Result<Self> {
         let db_path = Self::db_path(repo_root)?;
         std::fs::create_dir_all(db_path.parent().unwrap())?;
@@ -90,7 +90,7 @@ impl SQLiteStore {
         let hex = format!("{:016x}", hash);
         let base = dirs_next::data_local_dir()
             .unwrap_or_else(|| PathBuf::from(std::env::var("HOME").unwrap_or_default()).join(".local/share"));
-        Ok(base.join("context-optimizer").join("db").join(format!("{}.db", hex)))
+        Ok(base.join("context-evalver").join("db").join(format!("{}.db", hex)))
     }
 
     fn apply_pragmas(&self) -> Result<()> {

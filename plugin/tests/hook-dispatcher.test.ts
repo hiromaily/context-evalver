@@ -53,8 +53,8 @@ describe('handleSessionStart — ignore file', () => {
     await rm(tmpDir, { recursive: true, force: true });
   });
 
-  it('does nothing when .context-optimizer-ignore exists in cwd', async () => {
-    await writeFile(join(tmpDir, '.context-optimizer-ignore'), '');
+  it('does nothing when .context-evalver-ignore exists in cwd', async () => {
+    await writeFile(join(tmpDir, '.context-evalver-ignore'), '');
     const input = makeSessionStartInput({ cwd: tmpDir });
     await handleSessionStart(input, { binPath: '/usr/bin/true', startupDelayMs: 0 });
     expect(spawn).not.toHaveBeenCalled();
@@ -94,7 +94,7 @@ describe('handleSessionStart — daemon spawn', () => {
 
   it('spawns daemon with --session-id argument', async () => {
     const input = makeSessionStartInput({ cwd: tmpDir, session_id: 'my-sess-42' });
-    await handleSessionStart(input, { binPath: 'context-optimizer-core', startupDelayMs: 0 });
+    await handleSessionStart(input, { binPath: 'context-evalver-core', startupDelayMs: 0 });
     const spawnMock = vi.mocked(spawn);
     const [_bin, args] = spawnMock.mock.calls[0]!;
     expect(args).toContain('--session-id');
@@ -103,7 +103,7 @@ describe('handleSessionStart — daemon spawn', () => {
 
   it('spawns daemon with --repo-root argument set to cwd', async () => {
     const input = makeSessionStartInput({ cwd: tmpDir });
-    await handleSessionStart(input, { binPath: 'context-optimizer-core', startupDelayMs: 0 });
+    await handleSessionStart(input, { binPath: 'context-evalver-core', startupDelayMs: 0 });
     const spawnMock = vi.mocked(spawn);
     const [_bin, args] = spawnMock.mock.calls[0]!;
     expect(args).toContain('--repo-root');
@@ -120,13 +120,13 @@ describe('handleSessionStart — daemon spawn', () => {
 
   it('calls unref() on the spawned process to detach it', async () => {
     const input = makeSessionStartInput({ cwd: tmpDir });
-    await handleSessionStart(input, { binPath: 'context-optimizer-core', startupDelayMs: 0 });
+    await handleSessionStart(input, { binPath: 'context-evalver-core', startupDelayMs: 0 });
     expect(mockChild.unref).toHaveBeenCalled();
   });
 
   it('spawns with detached: true in options', async () => {
     const input = makeSessionStartInput({ cwd: tmpDir });
-    await handleSessionStart(input, { binPath: 'context-optimizer-core', startupDelayMs: 0 });
+    await handleSessionStart(input, { binPath: 'context-evalver-core', startupDelayMs: 0 });
     const spawnMock = vi.mocked(spawn);
     const [_bin, _args, opts] = spawnMock.mock.calls[0]!;
     expect(opts?.detached).toBe(true);
@@ -177,7 +177,7 @@ describe('handleSessionStart — returns promptly', () => {
     const input = makeSessionStartInput({ cwd: tmpDir });
     const start = Date.now();
     // Use a 5000ms delay — it should NOT block
-    await handleSessionStart(input, { binPath: 'context-optimizer-core', startupDelayMs: 5000 });
+    await handleSessionStart(input, { binPath: 'context-evalver-core', startupDelayMs: 5000 });
     const elapsed = Date.now() - start;
     // Should return immediately (well under 500ms even accounting for test overhead)
     expect(elapsed).toBeLessThan(500);

@@ -1,6 +1,6 @@
-# Architecture — context-optimizer
+# Architecture — context-evalver
 
-context-optimizer is a **hybrid TypeScript + Rust** Claude Code plugin that observes developer session behavior, extracts recurring patterns, and proposes evidence-based improvements to `CLAUDE.md`, skills, and slash commands.
+context-evalver is a **hybrid TypeScript + Rust** Claude Code plugin that observes developer session behavior, extracts recurring patterns, and proposes evidence-based improvements to `CLAUDE.md`, skills, and slash commands.
 
 ## System Overview
 
@@ -17,7 +17,7 @@ context-optimizer is a **hybrid TypeScript + Rust** Claude Code plugin that obse
 │              TypeScript Plugin Layer (plugin/)          │
 │                                                         │
 │  • Event capture & secret redaction                     │
-│  • Config loading (.context-optimizer.json)             │
+│  • Config loading (.context-evalver.json)             │
 │  • IPC client (Unix socket JSONL)                       │
 │  • Patch generation & LLM prompt building               │
 │  • User-facing skills: /context-audit, /context-draft,  │
@@ -37,7 +37,7 @@ context-optimizer is a **hybrid TypeScript + Rust** Claude Code plugin that obse
 └──────────────────────┬──────────────────────────────────┘
                        │
                        ▼
-              ~/.local/share/context-optimizer/
+              ~/.local/share/context-evalver/
               ├── {session_id}.sock   ← Unix socket
               └── db/{hash}.db        ← SQLite database
 ```
@@ -45,7 +45,7 @@ context-optimizer is a **hybrid TypeScript + Rust** Claude Code plugin that obse
 ## Repository Layout
 
 ```
-context-optimizer/
+context-evalver/
 ├── core/                        # Rust daemon
 │   ├── Cargo.toml
 │   └── src/
@@ -62,7 +62,7 @@ context-optimizer/
 │   │   ├── hook-dispatcher.ts   # SessionStart/PerEvent/SessionEnd handlers
 │   │   ├── event-capture.ts     # Hook payload → CapturedEvent conversion
 │   │   ├── ipc-client.ts        # IpcClient: sendEvent, querySignals, flush, shutdown
-│   │   ├── config-loader.ts     # .context-optimizer.json loading with defaults
+│   │   ├── config-loader.ts     # .context-evalver.json loading with defaults
 │   │   ├── patch-generator.ts   # LLM prompt building, diff parsing, staging file I/O
 │   │   ├── context-audit.ts     # /context-audit skill entry point
 │   │   ├── context-draft.ts     # /context-draft skill entry point
@@ -90,7 +90,7 @@ context-optimizer/
 | `hook-dispatcher.ts` | Spawn daemon on `SessionStart`; forward events per tool use; flush + shutdown on `SessionEnd` |
 | `event-capture.ts` | Convert raw hook payloads to typed `CapturedEvent`; redact secrets; normalize error messages |
 | `ipc-client.ts` | Fire-and-forget `sendEvent`; request-response `querySignals`; `sendFlush`, `sendShutdown`, `sendReset` |
-| `config-loader.ts` | Read `.context-optimizer.json`, validate each field, merge with defaults — never throws |
+| `config-loader.ts` | Read `.context-evalver.json`, validate each field, merge with defaults — never throws |
 | `patch-generator.ts` | Build structured LLM prompts; parse `<!-- PATCH -->` blocks into unified diffs; persist staging files |
 | Skill entry points | Each skill reads `session_id`/`cwd` from context, loads config, calls IPC, renders output |
 
@@ -113,7 +113,7 @@ context-optimizer/
 
 ## IPC Protocol
 
-**Transport**: Unix domain socket at `~/.local/share/context-optimizer/{session_id}.sock`
+**Transport**: Unix domain socket at `~/.local/share/context-evalver/{session_id}.sock`
 **Format**: Newline-delimited JSON (JSONL) over `SOCK_STREAM`
 
 ### Message Flow
@@ -196,7 +196,7 @@ SignalSummary  →  TypeScript plugin  →  User
 
 ## Data Storage
 
-All persistent state lives under `~/.local/share/context-optimizer/` (or `$XDG_DATA_HOME/context-optimizer/`).
+All persistent state lives under `~/.local/share/context-evalver/` (or `$XDG_DATA_HOME/context-evalver/`).
 
 | Path | Contents |
 |------|----------|
@@ -221,7 +221,7 @@ Denormalization on write (event → `file_access` / `errors`) keeps signal queri
 - **No file contents logged** — only paths and tool names
 - **Secret redaction** — AWS keys, GitHub tokens, `KEY=value` env assignments stripped before storing commands
 - **Error normalization** — file paths and line numbers stripped from error messages before storage
-- **Opt-out** — create `.context-optimizer-ignore` in a repository root to disable all monitoring for that repo
+- **Opt-out** — create `.context-evalver-ignore` in a repository root to disable all monitoring for that repo
 - **Exclude paths** — configurable `exclude_paths` list prevents capturing events for specified path segments (e.g. `node_modules`, `.git`)
 
 ## Technology Choices

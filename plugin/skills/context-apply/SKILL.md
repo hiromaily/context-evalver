@@ -17,7 +17,7 @@ Run `/context-draft` first. This command reads the staging file (`drafts/{sessio
 3. Requests explicit confirmation before writing any files
 4. Applies each patch: creates new files or updates existing ones
 5. Runs `git diff` and displays the changes
-6. If `auto_pr = true` in `.context-optimizer.json`, creates a `git commit` with a descriptive message; otherwise, prints a manual `git commit` command
+6. If `auto_pr = true` in `.context-evalver.json`, creates a `git commit` with a descriptive message; otherwise, prints a manual `git commit` command
 7. Removes the staging file after apply
 
 ## Usage

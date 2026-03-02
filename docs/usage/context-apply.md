@@ -36,7 +36,7 @@ Enter `y` to proceed or `N` (or press Enter) to abort. No partial application on
 | `false` (default) | Prints `git add` and `git commit` commands for manual execution |
 | `true` | Automatically stages files and creates a git commit |
 
-To enable auto-commit, add `"auto_pr": true` to `.context-optimizer.json`.
+To enable auto-commit, add `"auto_pr": true` to `.context-evalver.json`.
 
 ## Partial Failure
 

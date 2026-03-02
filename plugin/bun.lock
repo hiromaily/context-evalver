@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "context-optimizer",
+      "name": "context-evalver",
       "devDependencies": {
         "@biomejs/biome": "2.4.4",
         "tsup": "^8.4.0",

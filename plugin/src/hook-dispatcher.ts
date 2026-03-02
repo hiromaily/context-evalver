@@ -13,7 +13,7 @@ import type { IpcClient } from './ipc-client.js';
 // ---------------------------------------------------------------------------
 
 export interface SessionStartOptions {
-  /** Path to the context-optimizer-core binary. Defaults to env var or 'context-optimizer-core'. */
+  /** Path to the context-evalver-core binary. Defaults to env var or 'context-evalver-core'. */
   binPath?: string;
   /**
    * Milliseconds to wait after spawning the daemon before returning.
@@ -28,7 +28,7 @@ export interface SessionStartOptions {
 // ---------------------------------------------------------------------------
 
 function defaultBinPath(): string {
-  return process.env.CONTEXT_OPTIMIZER_BIN ?? 'context-optimizer-core';
+  return process.env.CONTEXT_OPTIMIZER_BIN ?? 'context-evalver-core';
 }
 
 // ---------------------------------------------------------------------------
@@ -38,7 +38,7 @@ function defaultBinPath(): string {
 /**
  * Handles the `SessionStart` hook event.
  *
- * 1. If `.context-optimizer-ignore` exists in `cwd`, returns immediately.
+ * 1. If `.context-evalver-ignore` exists in `cwd`, returns immediately.
  * 2. Spawns the Rust daemon as a detached background process.
  * 3. Returns promptly; any post-startup IPC messages are deferred via setTimeout.
  * 4. Never throws — all errors are logged to stderr.
@@ -51,7 +51,7 @@ export async function handleSessionStart(
   const binPath = opts.binPath ?? defaultBinPath();
 
   // 1. Opt-out check
-  if (existsSync(join(cwd, '.context-optimizer-ignore'))) {
+  if (existsSync(join(cwd, '.context-evalver-ignore'))) {
     return;
   }
 
@@ -63,7 +63,7 @@ export async function handleSessionStart(
     });
     child.unref();
   } catch (err) {
-    process.stderr.write(`[context-optimizer] failed to spawn daemon: ${String(err)}\n`);
+    process.stderr.write(`[context-evalver] failed to spawn daemon: ${String(err)}\n`);
   }
 
   // 3. Return immediately — any deferred IPC is fire-and-forget via setTimeout.
@@ -100,7 +100,7 @@ export async function handlePerEventHook(
     if (event === null) return;
     ipcClient.sendEvent(event);
   } catch (err) {
-    process.stderr.write(`[context-optimizer] handlePerEventHook error: ${String(err)}\n`);
+    process.stderr.write(`[context-evalver] handlePerEventHook error: ${String(err)}\n`);
   }
 }
 
@@ -112,7 +112,7 @@ export interface SessionEndOptions {
   ipcClient: IpcClient;
   /**
    * Directory where draft staging files live.
-   * Defaults to `~/.local/share/context-optimizer/drafts/`.
+   * Defaults to `~/.local/share/context-evalver/drafts/`.
    * Injectable for tests.
    */
   draftsDir?: string;
@@ -120,7 +120,7 @@ export interface SessionEndOptions {
 
 function defaultDraftsDir(): string {
   const xdgDataHome = process.env.XDG_DATA_HOME ?? join(homedir(), '.local', 'share');
-  return join(xdgDataHome, 'context-optimizer', 'drafts');
+  return join(xdgDataHome, 'context-evalver', 'drafts');
 }
 
 /**
@@ -140,7 +140,7 @@ export async function handleSessionEnd(input: HookInput, opts: SessionEndOptions
   try {
     await ipcClient.sendFlush();
   } catch (err) {
-    process.stderr.write(`[context-optimizer] handleSessionEnd flush error: ${String(err)}\n`);
+    process.stderr.write(`[context-evalver] handleSessionEnd flush error: ${String(err)}\n`);
   }
 
   // 2. Remove draft staging file if present
@@ -154,6 +154,6 @@ export async function handleSessionEnd(input: HookInput, opts: SessionEndOptions
   try {
     await ipcClient.sendShutdown();
   } catch (err) {
-    process.stderr.write(`[context-optimizer] handleSessionEnd shutdown error: ${String(err)}\n`);
+    process.stderr.write(`[context-evalver] handleSessionEnd shutdown error: ${String(err)}\n`);
   }
 }

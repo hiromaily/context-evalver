@@ -21,11 +21,11 @@ use store::SQLiteStore;
 
 /// Derive the Unix socket path for a session.
 ///
-/// Path: `~/.local/share/context-optimizer/{session_id}.sock`
+/// Path: `~/.local/share/context-evalver/{session_id}.sock`
 pub fn socket_path_for_session(session_id: &str) -> PathBuf {
     let base = dirs_next::data_local_dir()
         .unwrap_or_else(|| PathBuf::from("/tmp"));
-    base.join("context-optimizer").join(format!("{session_id}.sock"))
+    base.join("context-evalver").join(format!("{session_id}.sock"))
 }
 
 /// Parse `--session-id <id>` and `--repo-root <path>` from `argv`.
@@ -71,7 +71,7 @@ pub fn parse_cli(args: &[String]) -> Result<(String, String)> {
 
 fn main() {
     if let Err(e) = run() {
-        eprintln!("[context-optimizer-core] fatal: {e}");
+        eprintln!("[context-evalver-core] fatal: {e}");
         std::process::exit(1);
     }
 }
@@ -134,7 +134,7 @@ mod tests {
     // -----------------------------------------------------------------------
 
     fn args(parts: &[&str]) -> Vec<String> {
-        std::iter::once("context-optimizer-core")
+        std::iter::once("context-evalver-core")
             .chain(parts.iter().copied())
             .map(String::from)
             .collect()
@@ -215,8 +215,8 @@ mod tests {
         let path = socket_path_for_session("test");
         let path_str = path.to_str().unwrap();
         assert!(
-            path_str.contains("context-optimizer"),
-            "socket path should be under 'context-optimizer' dir: {path_str}"
+            path_str.contains("context-evalver"),
+            "socket path should be under 'context-evalver' dir: {path_str}"
         );
     }
 

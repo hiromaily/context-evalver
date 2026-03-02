@@ -13,7 +13,7 @@ Use `/context-status` for a quick check without the full signal tables that `/co
 ## Example Output
 
 ```markdown
-## context-optimizer Status
+## context-evalver Status
 
 | Item | Value |
 |------|-------|
@@ -26,7 +26,7 @@ Use `/context-status` for a quick check without the full signal tables that `/co
 If the gate has not passed:
 
 ```markdown
-## context-optimizer Status
+## context-evalver Status
 
 | Item | Value |
 |------|-------|

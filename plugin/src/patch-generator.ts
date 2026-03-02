@@ -406,11 +406,11 @@ function findCandidateMeta(
 
 /**
  * Returns the path for the draft staging file for a given session.
- * Path: `$XDG_DATA_HOME/context-optimizer/drafts/{session_id}.json`
+ * Path: `$XDG_DATA_HOME/context-evalver/drafts/{session_id}.json`
  */
 export function draftStagingPath(session_id: string): string {
   const xdgDataHome = process.env.XDG_DATA_HOME ?? join(homedir(), '.local', 'share');
-  return join(xdgDataHome, 'context-optimizer', 'drafts', `${session_id}.json`);
+  return join(xdgDataHome, 'context-evalver', 'drafts', `${session_id}.json`);
 }
 
 /**

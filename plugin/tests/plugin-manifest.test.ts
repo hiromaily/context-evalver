@@ -10,7 +10,7 @@ describe('Claude Code plugin directory structure', () => {
     const manifestPath = join(pluginRoot, '.claude-plugin', 'plugin.json');
     expect(existsSync(manifestPath)).toBe(true);
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8')) as Record<string, unknown>;
-    expect(manifest.name).toBe('context-optimizer');
+    expect(manifest.name).toBe('context-evalver');
     expect(manifest.version).toMatch(/^\d+\.\d+\.\d+$/);
     expect(typeof manifest.description).toBe('string');
     expect((manifest.description as string).length).toBeGreaterThan(0);

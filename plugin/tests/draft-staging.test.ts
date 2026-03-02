@@ -38,7 +38,7 @@ let tmpDir: string;
 let origXdg: string | undefined;
 
 beforeEach(async () => {
-  tmpDir = await mkdtemp(join(tmpdir(), 'context-optimizer-test-'));
+  tmpDir = await mkdtemp(join(tmpdir(), 'context-evalver-test-'));
   origXdg = process.env.XDG_DATA_HOME;
   process.env.XDG_DATA_HOME = tmpDir;
 });
